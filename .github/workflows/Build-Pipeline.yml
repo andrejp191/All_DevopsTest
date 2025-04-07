@@ -1,0 +1,29 @@
+name: EchoTest
+on: [push]
+jobs:
+  Init-Job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This step is running."
+  
+  Build-Job:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Dir
+        shell: cmd
+        run: dir *.*
+      - name: Run Batch File
+        shell: cmd
+        run: DevScripts\build.bat
+        # Or if it's in the repository root:
+        # run: .\build.bat
+  
+  Finalize-Job:
+    needs: [Init-Job, Build-Job]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "All previous jobs completed successfully."
