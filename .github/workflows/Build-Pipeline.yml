@@ -2,7 +2,7 @@ name: EchoTest
 on: [push]
 jobs:
   Init-Job:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "This step is running."
@@ -23,7 +23,7 @@ jobs:
   
   Finalize-Job:
     needs: [Init-Job, Build-Job]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "All previous jobs completed successfully."
