@@ -12,9 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Dir
-        shell: cmd
-        run: dir *.*
       - name: Run Batch File
         shell: cmd
         run: DevScripts\build.bat
