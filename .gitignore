@@ -1,0 +1,24 @@
+# Ignore all .log files
+*.log
+*.tmp
+*.swp
+*.bak
+*.old
+*.obj
+*.db
+*.suo
+*.tlog
+*.pdb
+*.user
+*.filters
+*.idb
+*.recipe
+*.ilk
+
+# Ignore all markdown files
+*.md
+
+# Ignore all .md files except README.md
+*.md
+
+.vs/
