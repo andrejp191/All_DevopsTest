@@ -13,18 +13,36 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Run Batch File
+      - name: Read YAML configuration file
+        uses: pietrobolcato/action-read-yaml
+        id: read_config
+        with:
+          config: DevScripts\configuration.yaml 
+      - name: Show codeline name
+        run: echo "Codeline: ${{ steps.read_config.outputs.codeline }}"
+      - name: Run Build Batch File
         shell: cmd
         run: DevScripts\build.bat
+        
   Test-Job:
     runs-on: [ self-hosted, TEST-Runner]
     needs: [Build-Job]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Run Batch File
+      - name: Run Test Batch File
         shell: cmd
         run: DevScripts\test.bat
+        
+  Check-Job:
+    runs-on: [ self-hosted, CHECK-Runner]
+    needs: [Test-Job]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run CHECK Batch File
+        shell: cmd
+        run: DevScripts\check.bat        
   
   Finalize-Job:
     runs-on: windows-latest
