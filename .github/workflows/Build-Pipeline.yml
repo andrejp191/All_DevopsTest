@@ -5,7 +5,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "This step is running."
+      - name: Read YAML configuration file
+        uses: pietrobolcato/action-read-yaml@1.0.0
+        id: read_config
+        with:
+          config: DevScripts\configuration.yaml 
   
   Build-Job:
     runs-on: [ self-hosted, BUILD-Runner]
@@ -13,11 +17,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Read YAML configuration file
-        uses: pietrobolcato/action-read-yaml@1.0.0
-        id: read_config
-        with:
-          config: DevScripts\configuration.yaml 
       - name: Show codeline name
         shell: cmd
         run: |
@@ -48,7 +47,6 @@ jobs:
   
   Finalize-Job:
     runs-on: windows-latest
-    needs: [Init-Job]
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "All previous jobs completed successfully."
