@@ -19,10 +19,10 @@ jobs:
         with:
           config: DevScripts\configuration.yaml 
       - name: Show codeline name
-        run: echo "Codeline: ${{ steps.read_config.outputs.codeline }}"
+        run: 'echo "Codeline: ${{ steps.read_config.outputs.codeline }}"'
       - name: Run Build Batch File
         shell: cmd
-        run: DevScripts\build.bat
+        run: DevScripts/build.bat
         
   Test-Job:
     runs-on: [ self-hosted, TEST-Runner]
