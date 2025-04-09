@@ -19,6 +19,7 @@ jobs:
         with:
           config: DevScripts\configuration.yaml 
       - name: Show codeline name
+        shell: cmd
         run: |
           echo "Codeline: ${{ steps.read_config.outputs.codeline }}"
       - name: Run Build Batch File
