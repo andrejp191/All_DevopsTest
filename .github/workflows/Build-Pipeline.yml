@@ -1,4 +1,4 @@
-name: EchoTest
+name: BUILD-TEST
 on: [push]
 jobs:
   Init-Job:
@@ -15,8 +15,6 @@ jobs:
       - name: Run Batch File
         shell: cmd
         run: DevScripts\build.bat
-        # Or if it's in the repository root:
-        # run: .\build.bat
   
   Finalize-Job:
     needs: [Init-Job, Build-Job]
