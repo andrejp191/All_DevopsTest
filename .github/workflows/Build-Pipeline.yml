@@ -1,4 +1,4 @@
-name: EchoTest
+name: BUILD-TEST
 on: [push]
 jobs:
   Init-Job:
@@ -8,15 +8,13 @@ jobs:
       - run: echo "This step is running."
   
   Build-Job:
-    runs-on: self-hosted
+    runs-on: [ self-hosted, TEST-Runner]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Run Batch File
         shell: cmd
         run: DevScripts\build.bat
-        # Or if it's in the repository root:
-        # run: .\build.bat
   
   Finalize-Job:
     needs: [Init-Job, Build-Job]
