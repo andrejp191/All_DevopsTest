@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Read YAML configuration file
-        uses: pietrobolcato/action-read-yaml
+        uses: pietrobolcato/action-read-yaml@1.0.0
         id: read_config
         with:
           config: DevScripts\configuration.yaml 
