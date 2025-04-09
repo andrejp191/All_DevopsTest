@@ -8,13 +8,21 @@ jobs:
       - run: echo "This step is running."
   
   Build-Job:
-    runs-on: [ self-hosted, TEST-Runner]
+    runs-on: [ self-hosted]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Run Batch File
         shell: cmd
         run: DevScripts\build.bat
+  Test-Job:
+    runs-on: [ self-hosted, TEST-Runner]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run Batch File
+        shell: cmd
+        run: DevScripts\test.bat
   
   Finalize-Job:
     needs: [Init-Job, Build-Job]
