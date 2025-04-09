@@ -14,13 +14,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Read YAML configuration file
-        uses: pietrobolcato/action-read-yaml
+        uses: pietrobolcato/action-read-yaml@1.0.0
         id: read_config
         with:
           config: DevScripts\configuration.yaml 
       - name: Show codeline name
         shell: cmd
-        run: echo "Codeline: ${{ steps.read_config.outputs.codeline }}"
+        run: |
+          echo "Codeline: ${{ steps.read_config.outputs.codeline }}"
       - name: Run Build Batch File
         shell: cmd
         run: DevScripts\build.bat
