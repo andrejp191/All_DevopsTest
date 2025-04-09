@@ -48,7 +48,6 @@ jobs:
   
   Finalize-Job:
     runs-on: windows-latest
-    needs: [Init-Job]
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "All previous jobs completed successfully."
