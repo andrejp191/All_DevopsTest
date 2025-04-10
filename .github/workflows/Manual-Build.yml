@@ -1,0 +1,74 @@
+# This is a basic workflow that is manually triggered
+
+name: Manual workflow
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Person to greet'
+        # Default value if no value is explicitly provided
+        default: 'World'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+
+jobs:
+  Init-Job:
+    runs-on: windows-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Read YAML configuration file
+        uses: pietrobolcato/action-read-yaml@1.0.0
+        id: read_config
+        with:
+          config: DevScripts\configuration.yaml 
+  
+  Build-Job:
+    runs-on: [ self-hosted, BUILD-Runner]
+    needs: [Init-Job]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+            sparse-checkout: 'DevScripts'
+            sparse-checkout-cone-mode: false
+      - name: Show codeline name
+        shell: cmd
+        run: |
+          echo "Codeline: ${{ steps.read_config.outputs.codeline }}"
+      - name: Run Build Batch File
+        shell: cmd
+        run: DevScripts/build.bat
+        
+  Test-Job:
+    runs-on: [ self-hosted, TEST-Runner]
+    needs: [Build-Job]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run Test Batch File
+        shell: cmd
+        run: DevScripts\test.bat
+        
+  Check-Job:
+    runs-on: [ self-hosted, CHECK-Runner]
+    needs: [Test-Job]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run CHECK Batch File
+        shell: cmd
+        run: DevScripts\check.bat        
+  
+  Finalize-Job:
+    runs-on: windows-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "All previous jobs completed successfully."
+
