@@ -17,6 +17,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+            sparse-checkout: 'DevScripts'
+            sparse-checkout-cone-mode: false
       - name: Show codeline name
         shell: cmd
         run: |
