@@ -1,0 +1,3 @@
+{
+  "suite": ["suite1", "suite2", "suite3", "suite4", "unitests", "unitest_debug"]
+}
