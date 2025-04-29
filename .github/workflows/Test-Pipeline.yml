@@ -23,6 +23,7 @@ jobs:
           echo "suites=$suites" >> $GITHUB_OUTPUT
   Test-Job:
     runs-on: [ self-hosted, TEST-Runner]
+    needs: Read-Test-Matrix
     strategy:
       fail-fast: false  # Critical: Prevents auto-cancellation of jobs
       matrix:
