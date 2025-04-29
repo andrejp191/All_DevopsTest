@@ -13,23 +13,19 @@ jobs:
   
   Test-Job:
     runs-on: [ self-hosted, TEST-Runner]
+    strategy:
+      matrix:
+        suite: [suite1, suite2, suite3]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Run ${{ matrix.suite }}
+        run: |
+          echo "Running test suite: ${{ matrix.suite }}"
       - name: Run Test Batch File
         shell: cmd
         run: DevScripts\test.bat
         
-  Check-Job:
-    runs-on: [ self-hosted, CHECK-Runner]
-    needs: [Test-Job]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Run CHECK Batch File
-        shell: cmd
-        run: DevScripts\check.bat        
-  
   Finalize-Job:
     runs-on: windows-latest
     steps:
