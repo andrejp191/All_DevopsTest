@@ -13,7 +13,6 @@ jobs:
   
   Test-Job:
     runs-on: [ self-hosted, TEST-Runner]
-    needs: [Build-Job]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
