@@ -1,0 +1,38 @@
+name: BUILD-TEST
+on: [push]
+jobs:
+  Init-Job:
+    runs-on: windows-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Read YAML configuration file
+        uses: pietrobolcato/action-read-yaml@1.0.0
+        id: read_config
+        with:
+          config: DevScripts\configuration.yaml 
+  
+  Test-Job:
+    runs-on: [ self-hosted, TEST-Runner]
+    needs: [Build-Job]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run Test Batch File
+        shell: cmd
+        run: DevScripts\test.bat
+        
+  Check-Job:
+    runs-on: [ self-hosted, CHECK-Runner]
+    needs: [Test-Job]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run CHECK Batch File
+        shell: cmd
+        run: DevScripts\check.bat        
+  
+  Finalize-Job:
+    runs-on: windows-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "All previous jobs completed successfully."
