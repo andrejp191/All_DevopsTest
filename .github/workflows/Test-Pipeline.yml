@@ -19,6 +19,7 @@ jobs:
       - id: set-matrix
         run: |
           suites=$(jq -c '.suite' DevScripts/criteria_tests.json)
+          echo "suites=$suites"
           echo "suites=$suites" >> $GITHUB_OUTPUT
   Test-Job:
     runs-on: [ self-hosted, TEST-Runner]
