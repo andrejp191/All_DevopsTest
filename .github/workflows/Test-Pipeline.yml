@@ -1,4 +1,4 @@
-name: BUILD-TEST
+name: TEST only
 on: [push]
 jobs:
   Init-Job:
