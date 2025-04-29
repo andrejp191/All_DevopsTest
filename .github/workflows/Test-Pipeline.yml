@@ -10,13 +10,22 @@ jobs:
         id: read_config
         with:
           config: DevScripts\configuration.yaml 
-  
+  Read-Test-Matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      suites: ${{ steps.set-matrix.outputs.suites }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set-matrix
+        run: |
+          suites=$(jq -c '.suite' DevScripts\criteria_tests.json)
+          echo "suites=$suites" >> $GITHUB_OUTPUT
   Test-Job:
     runs-on: [ self-hosted, TEST-Runner]
     strategy:
       fail-fast: false  # Critical: Prevents auto-cancellation of jobs
       matrix:
-        suite: [suite1, suite2, suite3]
+        suite: ${{ fromJson(needs.Read-Test-Matrix.outputs.suites) }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
